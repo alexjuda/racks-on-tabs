@@ -1,4 +1,5 @@
 import argparse
+import csv
 
 import flask
 
@@ -8,9 +9,19 @@ def _make_app(csv_path):
 
     @app.route('/')
     def _index():
-        return flask.render_template('index.html')
+        rows = _read_csv(csv_path)
+        return flask.render_template('index.html',
+                                     n_rows=len(rows),
+                                     n_cols=len(rows[0].keys()),
+                                     rows=rows)
 
     return app
+
+
+def _read_csv(path):
+    with open(path) as f:
+        return [row
+                for row in csv.DictReader(f)]
 
 
 def main():
