@@ -4,6 +4,10 @@ import csv
 import flask
 
 
+def _url_for(route_name, **params):
+    return flask.url_for(route_name, **params)
+
+
 def _make_app(csv_path):
     app = flask.Flask(__name__)
 
@@ -13,7 +17,8 @@ def _make_app(csv_path):
         return flask.render_template('index.html',
                                      n_rows=len(rows),
                                      n_cols=len(rows[0].keys()),
-                                     first_row=rows[0])
+                                     first_row=rows[0],
+                                     app_js_url=_url_for('static', filename='app.js'))
 
     return app
 
