@@ -9,7 +9,7 @@ def _url_for(route_name, **params):
     return flask.url_for(route_name, **params)
 
 
-def _make_app(csv_path):
+def make_app(csv_path):
     app = flask.Flask(__name__)
 
     @app.route('/')
@@ -53,13 +53,20 @@ def _read_csv_doc(path, n_rows, after_id):
                 'col_names': col_names}
 
 
-def main():
+def make_cli_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('csv_path')
-    args = parser.parse_args()
+    parser.add_argument('-p', '--port',
+                        help='HTTP port to serve on. Defaults to 7482',
+                        type=int,
+                        default=7482)
+    return parser
 
-    app = _make_app(args.csv_path)
-    app.run(debug=True)
+
+def main():
+    args = make_cli_parser().parse_args()
+    app = make_app(args.csv_path)
+    app.run(port=args.port, debug=True)
 
 
 if __name__ == '__main__':
