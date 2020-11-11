@@ -1,5 +1,6 @@
 import argparse
 import csv
+import itertools as itt
 
 import flask
 
@@ -13,10 +14,11 @@ def _make_app(csv_path):
 
     @app.route('/')
     def _index():
+        n_rows = _csv_lines_count(csv_path)
         csv_doc = _read_csv_doc(csv_path, 0, -1)
         return flask.render_template('index.html',
                                      csv_path=csv_path,
-                                     n_rows=csv_doc['n_all_rows'],
+                                     n_rows=n_rows,
                                      n_cols=len(csv_doc['col_names']),
                                      table_headers=csv_doc['col_names'],
                                      app_js_url=_url_for('static', filename='app.js'))
@@ -34,14 +36,21 @@ def _make_app(csv_path):
     return app
 
 
+def _csv_lines_count(path):
+    with open(path) as f:
+        reader = csv.DictReader(f)
+        return sum(1 for _ in reader)
+
+
 def _read_csv_doc(path, n_rows, after_id):
     with open(path) as f:
         reader = csv.DictReader(f)
-        all_rows = list(reader)
+        col_names = reader.fieldnames
+        rows = [(e_i + after_id + 1, e)
+                for e_i, e in enumerate(itt.islice(reader, after_id+1, after_id+1+n_rows))]
 
-        return {'rows': list(enumerate(all_rows))[after_id + 1:after_id + 1 + n_rows],
-                'n_all_rows': len(all_rows),
-                'col_names': reader.fieldnames}
+        return {'rows': rows,
+                'col_names': col_names}
 
 
 def main():
