@@ -1,5 +1,5 @@
-{% for row_values in rows_values %}
-  <tr>
+{% for row_id, row_values in rows_values %}
+  <tr class="csv-table-row" data-row-id="{{ row_id }}">
     {% for value in row_values %}
       <td>{{ value }}</td>
     {% endfor %}
