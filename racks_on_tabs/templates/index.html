@@ -10,6 +10,7 @@
     <p>{{ n_cols }} cols, {{ n_rows }} rows in total.</p>
     <table id="csv-table">
       <tr>
+        <th>row id</th>
         {% for header in table_headers %}
           <th>{{ header }}</th>
         {% endfor %}
