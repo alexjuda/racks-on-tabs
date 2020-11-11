@@ -8,15 +8,12 @@
   <body>
     <h1>Hello!</h1>
     <p>Below is a table with {{ n_rows }} rows and {{ n_cols }} columns</p>
-
     <table>
-      {% for row in rows %}
-        <tr>
-          {% for v in row.values() %}
-            <td>{{ v }}</td>
-          {% endfor %}
-        </tr>
-      {% endfor %}
+      <tr data-foo="">
+        {% for v in first_row.values() %}
+          <td>{{ v }}</td>
+        {% endfor %}
+      </tr>
     </table>
   </body>
 </html>

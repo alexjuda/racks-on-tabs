@@ -13,7 +13,7 @@ def _make_app(csv_path):
         return flask.render_template('index.html',
                                      n_rows=len(rows),
                                      n_cols=len(rows[0].keys()),
-                                     rows=rows)
+                                     first_row=rows[0])
 
     return app
 
@@ -30,7 +30,7 @@ def main():
     args = parser.parse_args()
 
     app = _make_app(args.csv_path)
-    app.run()
+    app.run(debug=True)
 
 
 if __name__ == '__main__':
