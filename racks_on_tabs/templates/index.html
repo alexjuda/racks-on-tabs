@@ -6,16 +6,17 @@
     <script type="text/javascript" src="{{ app_js_url }}"></script>
   </head>
   <body>
-    <h1>Hello!</h1>
-    <p id="debug-p"></p>
-    <p>Below is a table with {{ n_rows }} rows and {{ n_cols }} columns</p>
-    <table>
-      <tr data-foo="">
-        {% for v in first_row.values() %}
-          <td>{{ v }}</td>
+    <h1>racks on '{{ csv_path }}' tabs</h1>
+    <p id="debug-p"
+       style="border: solid 1px red;"></p>
+    <p>{{ n_cols }} cols, {{ n_rows }} rows in total.</p>
+    <table id="csv-table">
+      <tr>
+        {% for header in table_headers %}
+          <th>{{ header }}</th>
         {% endfor %}
       </tr>
     </table>
-    <p id="post-table-p">this text is at the bottom</>
+    <p id="post-table-p">loading rows...</>
   </body>
 </html>

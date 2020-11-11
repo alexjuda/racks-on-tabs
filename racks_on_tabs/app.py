@@ -13,20 +13,31 @@ def _make_app(csv_path):
 
     @app.route('/')
     def _index():
-        rows = _read_csv(csv_path)
+        csv_doc = _read_csv_doc(csv_path)
         return flask.render_template('index.html',
-                                     n_rows=len(rows),
-                                     n_cols=len(rows[0].keys()),
-                                     first_row=rows[0],
+                                     csv_path=csv_path,
+                                     n_rows=len(csv_doc['rows']),
+                                     n_cols=len(csv_doc['col_names']),
+                                     table_headers=csv_doc['col_names'],
                                      app_js_url=_url_for('static', filename='app.js'))
+
+    @app.route('/partial/rows')
+    def _partial_rows():
+        csv_doc = _read_csv_doc(csv_path)
+        return flask.render_template('table_rows.html',
+                                     rows_values=[[row[col]
+                                                   for col in csv_doc['col_names']]
+                                                  for row in csv_doc['rows']])
 
     return app
 
 
-def _read_csv(path):
+def _read_csv_doc(path):
     with open(path) as f:
-        return [row
-                for row in csv.DictReader(f)]
+        reader = csv.DictReader(f)
+
+        return {'rows': list(reader),
+                'col_names': reader.fieldnames}
 
 
 def main():
