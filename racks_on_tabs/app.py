@@ -21,7 +21,9 @@ def make_app(csv_path):
                                      n_rows=n_rows,
                                      n_cols=len(csv_doc['col_names']),
                                      table_headers=csv_doc['col_names'],
-                                     app_js_url=_url_for('static', filename='app.js'))
+                                     app_css_url=_url_for('static', filename='app.css'),
+                                     app_js_url=_url_for('static', filename='app.js'),
+                                     favicon_url=_url_for('static', filename='favicon.png'))
 
     @app.route('/partial/rows')
     def _partial_rows():
