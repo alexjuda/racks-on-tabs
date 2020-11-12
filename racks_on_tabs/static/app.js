@@ -11,21 +11,46 @@
         return (isFinite(maxRowId) ? maxRowId : -1);
     }
 
+    function fetchPartialRows(nRows, afterId) {
+        return fetch(`/partial/rows?n_rows=${nRows}&after_id=${afterId}`, {})
+            .then(resp => {
+                return resp.text();
+            });
+    }
+
+    function csvTableElement() {
+        return document.querySelector('#csv-table');
+    }
+
+    function postTablePElement() {
+        return document.querySelector('#post-table-p');
+    }
+
+    function appendHtml(element, htmlString) {
+        element.insertAdjacentHTML('beforeend', htmlString);
+    }
+
+    function setTextContent(element, content) {
+        element.textContent = content;
+    }
+
     const csvRowBatchSize = 10;
 
     window.addEventListener('load', _evt => {
         const obs = new IntersectionObserver(entries => {
             if (shouldFetchRows(entries)) {
                 const maxId = maxCurrentRowId();
-                fetch(`/partial/rows?n_rows=${csvRowBatchSize}&after_id=${maxId}`, {})
-                    .then(resp => {
-                        return resp.text();
-                    })
-                    .then(fetchedHtml => {
-                        document.querySelector('#csv-table').insertAdjacentHTML('beforeend', fetchedHtml);
+
+                setTextContent(postTablePElement(), 'loading next rows...');
+
+                fetchPartialRows(csvRowBatchSize, maxId)
+                    .then(html => {
+                        appendHtml(csvTableElement(), html);
+
+                        setTextContent(postTablePElement(), '');
                     });
             }
         }, {});
-        obs.observe(document.querySelector('#post-table-p'))
+        obs.observe(postTablePElement());
     });
 })();
