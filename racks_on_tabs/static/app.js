@@ -34,7 +34,7 @@
         element.textContent = content;
     }
 
-    const csvRowBatchSize = 10;
+    const csvRowBatchSize = 40;
 
     window.addEventListener('load', _evt => {
         const obs = new IntersectionObserver(entries => {
