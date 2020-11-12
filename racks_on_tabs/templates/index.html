@@ -3,6 +3,7 @@
   <head>
     <title>racks@tabs</title>
     <link rel="stylesheet" href="https://cdn.rawgit.com/kimeiga/bahunya/css/bahunya-0.1.3.css" />
+    <link rel="stylesheet" href="{{ app_css_url }}" />
     <link rel="shortcut icon" href="{{ favicon_url }}">
     <script type="text/javascript" src="{{ app_js_url }}"></script>
   </head>
@@ -11,9 +12,9 @@
     <p>{{ n_cols }} cols, {{ n_rows }} rows in total.</p>
     <table id="csv-table">
       <tr>
-        <th>row id</th>
+        <th class="csv-table-header">row id</th>
         {% for header in table_headers %}
-          <th>{{ header }}</th>
+          <th class="csv-table-header">{{ header }}</th>
         {% endfor %}
       </tr>
     </table>
