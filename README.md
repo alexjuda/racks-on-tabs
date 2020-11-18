@@ -11,7 +11,7 @@
 Command line app for browsing CSV files with row lazy loading.
 
 ![](docs/imgs/1m-csv-example.png)
-*This is what opening 1M rows under 100ms looks like.*
+*This is what opening [1M rows](http://eforexcel.com/wp/downloads-18-sample-csv-files-data-sets-for-testing-sales/) under 100ms looks like.*
 
 ```sh
 $ racks-on-tabs <PATH_TO_CSV>
