@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "racks-on-tabs"
-version = "0.1.1"
+version = "0.1.2"
 description = "Command line app for browsing CSV files with row lazy loading."
 license = "MIT"
 authors = ["Alexander Juda <alexanderjuda@gmail.com>"]
