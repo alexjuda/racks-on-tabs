@@ -14,11 +14,9 @@ def make_app(csv_path):
 
     @app.route('/')
     def _index():
-        n_rows = _csv_lines_count(csv_path)
         csv_doc = _read_csv_doc(csv_path, 0, -1)
         return flask.render_template('index.html',
                                      csv_path=csv_path,
-                                     n_rows=n_rows,
                                      n_cols=len(csv_doc['col_names']),
                                      table_headers=csv_doc['col_names'],
                                      app_css_url=_url_for('static', filename='app.css'),
@@ -36,12 +34,6 @@ def make_app(csv_path):
                                                   for row_id, row in csv_doc['rows']])
 
     return app
-
-
-def _csv_lines_count(path):
-    with open(path) as f:
-        reader = csv.DictReader(f)
-        return sum(1 for _ in reader)
 
 
 def _read_csv_doc(path, n_rows, after_id):
